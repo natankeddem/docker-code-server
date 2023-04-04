@@ -29,3 +29,9 @@ chmod 700 /config/.ssh
 if [ -n "$(ls -A /config/.ssh)" ]; then
     chmod 600 /config/.ssh/*
 fi
+
+if [ -n "${DOCKERGID}" ] && [ "${DOCKERGID}" -ne "${PGID}" ]; then
+    echo "adding user abc to docker group"
+    groupadd docker -g "$DOCKERGID"
+    usermod -aG docker abc
+fi
