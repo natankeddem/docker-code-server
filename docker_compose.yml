@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   code-server:
-    image: dockercodeserver:latest
+    image: ghcr.io/natankeddem/docker-code-server:latest
     environment:
       - PUID=1000
       - PGID=1000
