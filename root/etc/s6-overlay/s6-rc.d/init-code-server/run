@@ -35,3 +35,15 @@ if [ -n "${DOCKERGID}" ] && [ "${DOCKERGID}" -ne "${PGID}" ]; then
     groupadd docker -g "$DOCKERGID"
     usermod -aG docker abc
 fi
+
+if [ -n "${GITUSER}" ]; then
+    git config --global user.name "$GITUSER"
+else
+    git config --global user.name "Default User"
+fi
+
+if [ -n "${GITEMAIL}" ]; then
+    git config --global user.email "$GITEMAIL"
+else
+    git config --global user.email "defaultuser@github.com"
+fi
