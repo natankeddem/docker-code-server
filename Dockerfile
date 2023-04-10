@@ -33,15 +33,10 @@ RUN \
     "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz" && \
   tar xf /tmp/code-server.tar.gz -C \
     /app/code-server --strip-components=1 && \
-  echo "**** clean up ****" && \
-  apt-get clean && \
-  rm -rf \
-    /config/* \
-    /tmp/* \
-    /var/lib/apt/lists/* \
-    /var/tmp/* && \
+  echo "**** Custom Configuration Starting ****" && \
   sudo apt-get update && \
-  sudo apt-get install \
+  sudo apt-get install -y \
+    software-properties-common \
     ca-certificates \
     curl \
     gnupg && \
@@ -51,8 +46,28 @@ RUN \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+  sudo add-apt-repository ppa:deadsnakes/ppa && \
   sudo apt-get update && \
-  sudo apt-get install docker-ce-cli docker-compose-plugin docker-compose -y
+  sudo apt-get install -y \
+    docker-ce-cli \
+    docker-compose-plugin \
+    docker-compose \
+    build-essential \
+    zsh \
+    htop \
+    wget \
+    python3.10  \
+    python3-pip \
+    python3.10-venv \
+    zip \
+    unzip && \
+  echo "**** clean up ****" && \
+  sudo apt-get clean && \
+  rm -rf \
+    /config/* \
+    /tmp/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/*
 
 # add local files
 COPY /root /
